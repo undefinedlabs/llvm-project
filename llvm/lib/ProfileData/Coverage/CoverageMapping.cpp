@@ -242,6 +242,11 @@ Error CoverageMapping::loadFunctionRecord(
     Function.pushRegion(Region, *ExecutionCount);
   }
 
+  //[Undefined Labs] We don't want to record not executed functions
+  if(Function.ExecutionCount == 0)
+    return Error::success();
+
+
   // Don't create records for (filenames, function) pairs we've already seen.
   auto FilenamesHash = hash_combine_range(Record.Filenames.begin(),
                                           Record.Filenames.end());
